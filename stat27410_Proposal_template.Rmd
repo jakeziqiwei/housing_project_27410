@@ -1,0 +1,139 @@
+---
+title: "STAT 27410 Final Project Proposal"
+author: "Brigette Kon and Jake Wei"
+fontsize: 12pt
+bibliography: references.bib
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+  geometry: margin=0.75in
+fig_crop: no
+---
+
+```{r echo=FALSE, message=FALSE}
+library(knitr)
+library(tidyverse)
+library(reticulate)
+library(ggplot2)
+library(ggcorrplot)
+knitr::opts_chunk$set(fig.width=4, fig.height=3, message=F, warning=F)
+options(scipen=6, digits=6)
+
+```
+
+# 1. Introduction
+
+In American housing industry, housing prices is determined by various features of the home such as structural features of the homes or characteristics of the neighborhood in which the home are located in. In this research project, we try to answer the research question: what are the most important factors in predict US housing prices across different neighborhood. The data set we found gives six explanatory variables and one response variable. The six explanatory are average area income, average area house area, average area number of rooms, average area population, and zip code. The response is the price of individual houses. The data set is obtained from Kaggle.com and is updated 5 years ago.              
+
+
+# 2. Exploratory Data Analysis
+
+```{r}
+#data Cleaning
+
+Housing <- read.csv('USA_Housing.csv')
+Housing <- Housing %>% 
+  mutate(zipcode =str_sub(word(Address, -1), 1, 5))
+
+
+
+
+```
+
+
+```{r}
+summary(Housing)
+numerical_features <- Housing[, 1:5]
+pairs(numerical_features)
+cor_matrix <- cor(numerical_features)
+cor_matrix
+ggcorrplot(cor_matrix)
+```
+
+
+```{r}
+
+feature_names <- c("Average Area Income", "Average Area House Age", "Average Area Number of Rooms", "Average number of bedrooms", "Average Area Population")
+# Create histogram plots for each feature
+for (i in 1:ncol(numerical_features)) {
+  hist(numerical_features[, i], main = paste("Histogram of Feature", feature_names[i]),
+       xlab = paste(feature_names[i]))
+}
+
+
+ggplot(data=Housing, aes(x=Price)) + 
+    geom_histogram(bins = 20, color = "black", alpha = 0.7) +
+  theme_minimal()
+```
+
+```{r}
+
+ggplot(Housing, aes(x = zipcode, y = Price)) +
+  geom_point() +
+  labs(x = "Zip Code", y = "Price") +
+  ggtitle("House Prices by Zip Code")
+
+
+avg_prices <- aggregate(Price ~ zipcode, data = Housing, FUN = mean)
+
+
+```
+
+From the data exploration, we noticed a few interesting things. The first one being that housing prices across zip codes is fairly consistent. The second is that feature histograms mainly follow normal distribution and most homes average 5-6 rooms and house age. 
+
+# 3. Frequentist Analysis
+
+Perform the frequentist analysis in this session.
+
+## 3.1 Proposed Frequentist Model(s)
+
+In this section, formulate the frequentist model(s) you are going to use to analyze your dataset. Be sure to first define the notations involved in the model(s).
+
+## 3.2 Fitting the Frequentist Model(s)
+
+In this section, 
+* discuss how you fit the proposed frequentist model(s).
+* report the results.
+* interpret the results in the context.
+
+# 4. Bayesian Analysis
+
+Propose the Bayesian analysis you will work on during the rest of the quarter in this session.
+
+## 4.1 Proposed Bayesian Model(s)
+
+In this section, 
+
+* formulate the Bayesian model(s) you are going to use to analyze your dataset. Be sure to first define the notations involved in the model(s).
+* discuss how you will elicit the prior(s).
+
+## 4.2 Fitting the Bayesian model(s)
+
+* Propose how you will fit the proposed Bayesian models.
+
+* Propose how you will perform sensitivity analysis of the Bayesian models, i.e., how the posterior distribution is affected by the prior 
+
+* Propose how you will check the MCMC convergence. 
+
+## 4.3 Prediction
+
+In this section, propose how you can make predictions using the Bayesian model. 
+
+# 5. Discussion
+
+In this section, discuss how you can improve your model.
+
+# 6. Contributions
+
+In this section, discuss the percentage of your contributions to the development final project proposal. Report the number of hours you have worked on the proposal, and the sections you are involved.
+
+Please also discuss briefly the contributions of your teammate(s), as well as the help and support you got from your teammates(s).
+
+# References
+<div id="refs"></div>
+
+# Appendix
+
+You can delegate detailed math derivations and/or sketch of algorithms and/or code in this section. 
