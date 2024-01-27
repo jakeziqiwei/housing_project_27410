@@ -16,6 +16,7 @@ fig_crop: no
 library(knitr)
 library(tidyverse)
 library(ggplot2)
+library(dplyr)
 library(ggcorrplot)
 
 knitr::opts_chunk$set(fig.width=4, fig.height=3, message=F, warning=F)
@@ -31,7 +32,7 @@ AirBnb has become one of the most popular choices for people traveling and seeki
 
 ```{r}
 
-data <- read.csv('listings (3).csv')
+data <- read.csv('nydata.csv')
 
 numerical_features <- data[3:9]
 categorical_features <- data[10:11]
@@ -112,11 +113,17 @@ ggplot(categorical_features_clean, aes(x = categorical_features_clean$room_type)
   labs(title = "Count Plot", x = "Category", y = "Count") +
   theme_minimal()
 
-neighborhood_counts <- data.frame(table(categorical_features_clean$neighbourhood_cleansed))
+neighborhood_Price <- data_clean[11:12]
+summary_price <- neighborhood_Price %>%
+  group_by(neighbourhood_cleansed) %>%
+  summarise(mean_price = mean(price),
+            median_price = median(price),
+            min_price = min(price),
+            max_price = max(price),
+            total_listings = n())
 
-names(neighborhood_counts) <- c("Neighborhood", "Count")
+summary_price
 
-neighborhood_counts
 ```
 
 
