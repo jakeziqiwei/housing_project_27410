@@ -1,0 +1,367 @@
+---
+title: "STAT 27410 Final Project Proposal"
+author: "Brigette Kon and Jake Wei"
+fontsize: 12pt
+bibliography: references.bib
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+  geometry: margin=0.75in
+fig_crop: no
+---
+
+```{r echo=FALSE, message=FALSE}
+library(knitr)
+knitr::opts_chunk$set(message=F, warning=F)
+options(scipen=6, digits=6)
+library(tidyverse)
+library(ggplot2)
+library(ggcorrplot)
+library(mosaic)
+library(car)
+library(MASS)
+library(broom)
+```
+
+# 1. Introduction
+
+AirBnb has become one of the most popular choices for people traveling and seeking housing. However, one problem exist. It is difficult for owners to come up with prices given the location and amenity. It is also hard to predict prices given seasons. Different features such as host ratings, season, location, number of bed rooms makes these two questions immensely complex. In this project, we try to provide insight into predicting prices given different neighborhood in the New York. The data set we picked comes from Inside Airbnb, which is a organization that periodically scrapes data from airbnb listing. There are 12 columns in the data set. Four are descriptions of the host and 10 can serve as explanatory variables. The explanatory variables are: neighborhood, room_type, accommodates, bed, price, minimum nights, and number of reviews. The response variable is the rent price. 
+
+We used R-Markdown to prepare this document. 
+
+# 2. Exploratory Data Cleaning and Data Analysis
+
+```{r, echo=F}
+
+data <- read.csv('nydata.csv')
+
+numerical_features <- data[3:9]
+categorical_features <- data[10:11]
+price <- data$price
+summary(price)
+
+```
+
+```{r, echo=F}
+summary(numerical_features)
+
+features <- c("latitude", "longitude", "accommodates", "beds", "minimum_nights", "number_of_reviews", "review_scores_rating")
+
+
+for (i in 1:ncol(numerical_features)) {
+  p <- ggplot(numerical_features, aes(x = numerical_features[[i]])) +
+    geom_density(fill = "skyblue", color = "black") +
+    labs(title = paste("Density Plot of Feature", features[i]), x = features[i], y = "Density") +
+    theme_minimal()
+  
+  plot(p)  # Print each plot
+}
+
+```
+
+From this initial data plotting, we realized that there data points that don't make sense. Some of the variables are poorly distributed For example the max price of 10000. In the next step, we will attempt to remove these outliers. Judging from IQR of each variables, we can see that majority of airbnbs in New York is below $500 and less than 30 nights. We will create a new dataframe from this. 
+
+```{r, echo=F}
+
+#clean data
+data_clean = subset(data,price <= 500 & minimum_nights <= 30)
+numerical_features_clean <- data_clean[3:9]
+categorical_features_clean <- data_clean[10:11]
+price_clean <- data_clean$price
+
+summary(price_clean)
+summary(numerical_features_clean)
+
+```
+
+```{r, echo=F}
+
+#graph again 
+
+for (i in 1:ncol(numerical_features_clean)) {
+  p <- ggplot(numerical_features_clean, aes(x = numerical_features_clean[[i]])) +
+    geom_density(fill = "skyblue", color = "black") +
+    labs(title = paste("Density Plot of Feature", features[i]), x = features[i], y = "Density") +
+    theme_minimal()
+  
+  print(p)  # Print each plot
+}
+
+plot(price_clean)
+```
+
+For the features now, it seems a lot more realistic after we removed outliers.
+
+```{r, echo=F}
+pairs(numerical_features_clean)
+cor_matrix <- cor(numerical_features_clean)
+cor_matrix
+ggcorrplot(cor_matrix)
+
+```
+
+we check for correlation between the variables. There seem to be relationship between number of reviews and minimum nights but because the correlation doesn't seem be a strong one.
+
+```{r, echo=F}
+#graphs with the categorical features 
+
+ggplot(categorical_features_clean, aes(x = categorical_features_clean$room_type)) +
+  geom_bar(stat = "count", fill = "skyblue", color = "black") +
+  labs(title = "Count Plot", x = "Category", y = "Count") +
+  theme_minimal()
+
+neighborhood_Price <- data_clean[11:12]
+summary_price <- neighborhood_Price %>%
+  group_by(neighbourhood_cleansed) %>%
+  summarise(mean_price = mean(price),
+            median_price = median(price),
+            min_price = min(price),
+            max_price = max(price),
+            total_listings = n())
+
+summary_price
+
+```
+
+# 3. Frequentist Analysis
+
+<!-- Perform the frequentist analysis in this session. -->
+
+## 3.1 Proposed Frequentist Model(s)
+
+<!-- In this section, formulate the frequentist model(s) you are going to use to analyze your dataset. Be sure to first define the notations involved in the model(s). -->
+
+We will be using Multiple Linear Regression to analyze our dataset. 
+
+$$ Y = \beta_0 + \beta_1 X_1 + \dots + \beta_n X_n + \epsilon$$
+* Y is the predicted rent price
+* $\beta_0$ is the intercept
+* $\beta_1, \dots, \beta_n$ are the coefficients for the respective $X_n$ independent variables
+* $\epsilon$ is the error term
+
+The variables that we included in our model were:
+* "area", the New York neighborhood of the Airbnb listing
+* "accommodates", the number of individuals the Airbnb can accommodate
+* "beds", the number of beds in the Airbnb
+* "bathrooms"
+* "min_nights", the minimum number of nights required to book the Airbnb
+* "room_type", whether the Airbnb listing was a private room, shared room, hotel room, or the entire home/apartment
+
+## 3.2 Fitting the Frequentist Model(s)
+
+<!-- In this section,  -->
+<!-- * discuss how you fit the proposed frequentist model(s). -->
+<!-- * report the results. -->
+<!-- * interpret the results in the context. -->
+
+```{r data, echo=F}
+airbnb24 <- read.csv('ny_ny.24.csv')
+```
+
+```{r 2024 fit, echo=F}
+lm24 = lm(price ~ area + accommodates + bathrooms + min_nights + room_type + beds, data=airbnb24)
+log24 = lm(log(price) ~ area + accommodates + bathrooms + min_nights + room_type + beds, data=airbnb24)
+airbnb24$logP <- log(airbnb24$price)
+
+UES <- subset(airbnb24, area == "Upper East Side")
+
+lm1 = lm(logP ~ area*log(accommodates) + area*bathrooms + area*log(min_nights) + area*room_type + area*beds, data=airbnb24)
+lmUES = lm(logP ~ log(accommodates) + bathrooms + log(min_nights) + room_type + beds, data=UES)
+lm2 = lm(logP ~ area*log(accommodates) + area*bathrooms + area*log(min_nights) + area*room_type + area*beds, data=airbnb24)
+```
+
+We fit the model by first testing if the model needed a log transformation. Thus, we graphed area vs. Price and area vs. log(Price).
+
+```{r, echo=F}
+## Residuals vs. Y
+ggplot(airbnb24, aes(x=area, y=price)) + geom_point() +
+  xlab("Area") + ylab("Price") + labs(title="Area vs. Price")
+ggplot(airbnb24, aes(x=area, y=logP)) + geom_point() +
+  xlab("Area") + ylab("Log of Price") + labs(title="Area vs. Log(Price)")
+```
+
+From the graphs above, we can see that after performing a log transformation on Price, the data becomes more linear and variance becomes more constant. 
+
+This is further demonstrated if we graph the fitted values against the residuals.
+
+```{r, echo=F}
+## Residuals vs. fitted values
+ggplot(airbnb24, aes(x=lm24$fit, y=lm24$res)) + geom_point() +
+  xlab("Fitted Values") + ylab("Residuals") + labs(title = "Without Log Transformation") +
+  geom_hline(yintercept = 0, col=2)
+ggplot(airbnb24, aes(x=log24$fit, y=log24$res)) + geom_point() +
+  xlab("Log Fitted Values") + ylab("Residuals") + labs(title = "With Log Transformation") +
+  geom_hline(yintercept = 0, col=2)
+```
+
+Thus, we decided to go with log(Price) in fitting our final model. 
+
+We included interaction terms between *area* and all other independent variables in the fitted model, and took the log of *accommodates* and *min_nights*. Looking at the R-squared values, we can see a general comparison between the model without a log transformation (lm24), the model with a log transformation (log24), and the final model we arrived at with a log transformation and interaction terms (lm1). 
+
+```{r, echo=F, results='hide'}
+summary(lm1)$r.squared
+summary(log24)$r.squared
+summary(lm24)$r.squared
+```
+
+Model | R^2
+---------- | ------
+lm24 | 0.148
+log24 | 0.416
+lm1 | 0.506
+
+Given that there are 32 neighborhoods in our sample, we will not display the final equation of the fitted model as there are 288 coefficients, but we will briefly explain our results below.
+
+In our final fitted model, the intercept $\beta_0$ = 4.328, which means if the Airbnb could accommodate 0 people, had 0 beds and bathrooms, required 0 minimum nights to book, was the entire home or apartment, and was located in Battery Park, the estimated rent price of the Airbnb is $75.78. We also found that the rent price of the Airbnb increases when it can accommodate more people, has more bathrooms, or is a private room and decreases the more minimum nights are required to book, is a hotel room or shared room, or has more beds. 
+
+As for the neighborhoods, we found that, compared to Battery Park, the neighborhoods that increased the rent price of an Airbnb the greatest were Civic Center, Inwood, Morningside Heights, and Roosevelt Island, and the neighborhoods that decreased the rent price the greatest were Flatiron District, Grammercy, and Stuyvesant Town. 
+
+<!-- To get a general visualization of what the model looks like, please see below for if the Airbnb was located on the Upper East Side: -->
+
+<!-- Log(rent price) $= 4.284 + 0.333\times\log(\text{accommodates}) + 0.435\times\text{bathrooms} + 0.027\times\text{beds} - 0.024\times\text{log(min_nights)} - 0.031\times\text{private room}- 0.491*\text{shared room}$ -->
+
+# 4. Bayesian Analysis
+
+<!-- Propose the Bayesian analysis you will work on during the rest of the quarter in this session. -->
+
+## 4.1 Proposed Bayesian Model(s)
+
+<!-- In this section,  -->
+
+<!-- * formulate the Bayesian model(s) you are going to use to analyze your dataset. Be sure to first define the notations involved in the model(s). -->
+<!-- * discuss how you will elicit the prior(s). -->
+
+We do not know exactly what Bayesian model(s) we are going to use to analyze our dataset since we do not know how to handle multiple independent variables. As for obtaining the prior, we have data from 2023 that we can use in order to obtain a prior for our analysis. 
+
+## 4.2 Fitting the Bayesian model(s)
+
+* Propose how you will fit the proposed Bayesian models.
+
+* Propose how you will perform sensitivity analysis of the Bayesian models, i.e., how the posterior distribution is affected by the prior
+
+* Propose how you will check the MCMC convergence.
+
+## 4.3 Prediction
+
+In this section, propose how you can make predictions using the Bayesian model.
+
+# 5. Discussion
+
+<!-- In this section, discuss how you can improve your model. -->
+
+We can improve our model by narrowing down the neighborhoods where we do not have enough information in order to make reliable predictions and remove it from our model. While this means that we will have to exclude predictions for that area, that could potentially help in obtaining a better fitted model. 
+
+# 6. Contributions
+
+<!-- In this section, discuss the percentage of your contributions to the development final project proposal. Report the number of hours you have worked on the proposal, and the sections you are involved. -->
+
+<!-- Please also discuss briefly the contributions of your teammate(s), as well as the help and support you got from your teammates(s). -->
+
+Brigette and Jake contribtued to the project equally, with Jake doing sections 1 and 2, and Brigette doing sections 3, 4, and 5. We worked on the proposal for 10+ hours. 
+
+# References
+
+<div id="refs"></div>
+
+# Appendix
+
+**From Section 2:**
+
+```{r, results='hide', fig.show='hide'}
+data <- read.csv('nydata.csv')
+
+numerical_features <- data[3:9]
+categorical_features <- data[10:11]
+price <- data$price
+summary(price)
+summary(numerical_features)
+
+features <- c("latitude", "longitude", "accommodates", "beds", "minimum_nights", "number_of_reviews", "review_scores_rating")
+
+for (i in 1:ncol(numerical_features)) {
+  p <- ggplot(numerical_features, aes(x = numerical_features[[i]])) +
+    geom_density(fill = "skyblue", color = "black") +
+    labs(title = paste("Density Plot of Feature", features[i]), x = features[i], y = "Density") +
+    theme_minimal()
+  
+  plot(p)  # Print each plot
+}
+
+#clean data
+data_clean = subset(data,price <= 500 & minimum_nights <= 30)
+numerical_features_clean <- data_clean[3:9]
+categorical_features_clean <- data_clean[10:11]
+price_clean <- data_clean$price
+
+summary(price_clean)
+summary(numerical_features_clean)
+
+#graph again 
+for (i in 1:ncol(numerical_features_clean)) {
+  p <- ggplot(numerical_features_clean, aes(x = numerical_features_clean[[i]])) +
+    geom_density(fill = "skyblue", color = "black") +
+    labs(title = paste("Density Plot of Feature", features[i]), x = features[i], y = "Density") +
+    theme_minimal()
+  
+  print(p)  # Print each plot
+}
+plot(price_clean)
+
+pairs(numerical_features_clean)
+cor_matrix <- cor(numerical_features_clean)
+cor_matrix
+ggcorrplot(cor_matrix)
+
+#graphs with the categorical features 
+ggplot(categorical_features_clean, aes(x = categorical_features_clean$room_type)) +
+  geom_bar(stat = "count", fill = "skyblue", color = "black") +
+  labs(title = "Count Plot", x = "Category", y = "Count") +
+  theme_minimal()
+
+neighborhood_Price <- data_clean[11:12]
+summary_price <- neighborhood_Price %>%
+  group_by(neighbourhood_cleansed) %>%
+  summarise(mean_price = mean(price),
+            median_price = median(price),
+            min_price = min(price),
+            max_price = max(price),
+            total_listings = n())
+
+summary_price
+```
+
+**From Section 3.2**
+
+```{r, results='hide', fig.show='hide'}
+airbnb24 <- read.csv('ny_ny.24.csv')
+airbnb24$logP <- log(airbnb24$price)
+
+lm24 = lm(price ~ area + accommodates + bathrooms + min_nights + room_type + beds, data=airbnb24)
+log24 = lm(logP ~ area + accommodates + bathrooms + min_nights + room_type + beds, data=airbnb24)
+
+lm1 = lm(logP ~ area*log(accommodates) + area*bathrooms + area*log(min_nights) + area*room_type + area*beds, data=airbnb24)
+
+## Residuals vs. Y
+ggplot(airbnb24, aes(x=area, y=price)) + geom_point() +
+  xlab("Area") + ylab("Price") + labs(title="Area vs. Price")
+ggplot(airbnb24, aes(x=area, y=logP)) + geom_point() +
+  xlab("Area") + ylab("Log of Price") + labs(title="Area vs. Log(Price)")
+
+## Residuals vs. fitted values
+ggplot(airbnb24, aes(x=lm24$fit, y=lm24$res)) + geom_point() +
+  xlab("Fitted Values") + ylab("Residuals") + labs(title = "Without Log Transformation") +
+  geom_hline(yintercept = 0, col=2)
+ggplot(airbnb24, aes(x=log24$fit, y=log24$res)) + geom_point() +
+  xlab("Log Fitted Values") + ylab("Residuals") + labs(title = "With Log Transformation") +
+  geom_hline(yintercept = 0, col=2)
+
+summary(lm1)$r.squared
+summary(log24)$r.squared
+summary(lm24)$r.squared
+
+coef(lm1)[1]  #log(price)
+tidy(lm1)
+tidy(lmUES)
+```
