@@ -2,7 +2,6 @@
 title: "STAT 27410 Final Project Proposal"
 author: "Brigette Kon and Jake Wei"
 fontsize: 12pt
-bibliography: references.bib
 output:
   pdf_document: default
   html_document:
@@ -23,30 +22,40 @@ library(mosaic)
 library(car)
 library(MASS)
 library(broom)
+library(xtable)
+library(stargazer)
 ```
 
 # 1. Introduction
 
-AirBnb has become one of the most popular choices for people traveling and seeking housing. However, one problem exist. It is difficult for owners to come up with prices given the location and amenity. It is also hard to predict prices given seasons. Different features such as host ratings, season, location, number of bed rooms makes these two questions immensely complex. In this project, we try to provide insight into predicting prices given different neighborhood in the New York. The data set we picked comes from Inside Airbnb, which is a organization that periodically scrapes data from airbnb listing. There are 12 columns in the data set. Four are descriptions of the host and 10 can serve as explanatory variables. The explanatory variables are: neighborhood, room_type, accommodates, bed, price, minimum nights, and number of reviews. The response variable is the rent price. 
+Airbnb has become one of the most popular choices for people traveling and seeking housing. However, one problem exists. It is difficult for owners to come up with prices given the location and amenities. It is also hard to predict prices given seasons. Different features such as host ratings, season, location, and number of bedrooms make these two questions immensely complex. In this project, we try to provide insight into predicting prices given different neighborhoods in New York. The data set we picked comes from Inside Airbnb, which is an organization that periodically scrapes data from Airbnb listings. There are 12 columns in the data set. Four are descriptions of the host and 10 can serve as explanatory variables. The explanatory variables are: neighborhood, room_type, accommodation, bed, price, minimum nights, and number of reviews. The response variable is the rent price. Firstly, We will's start with exploratory analysis and data cleaning. Secondly, we'll use the frequentist approach to fit the data and analyze the models. Lastly, we'll describe how we are going to fit the model with respect to a Bayesian approach.   
 
 We used R-Markdown to prepare this document. 
 
 # 2. Exploratory Data Cleaning and Data Analysis
 
-```{r, echo=F}
+
+To start, we load our New York data from Inside Airbnb, and obtain the summary statistics on the numerical features.From the summary table, there are signs of outliers which we will do further analysis to confirm. The two most notable ones are 42 beds and 1250 minimum amounts of nights. 
+
+
+```{r, results='asis'}
 
 data <- read.csv('nydata.csv')
 
 numerical_features <- data[3:9]
 categorical_features <- data[10:11]
-price <- data$price
-summary(price)
+price = summary(as.data.frame(data$price))
+num_and_price <- data[c(3:9,12)]
 
+stargazer(num_and_price,type='latex', title = "Figure 1: Summary Stat for Numerical Features")
 ```
 
-```{r, echo=F}
-summary(numerical_features)
 
+
+Next, we plot the density for each of the feature to get a sense of the shape. From the plots of each feature, there are signs of skewness from each other the features. The features are also poorly distributed. This also confirms our claim that there are outliers. The main outlier exist with minimum amounts stay, price, and amount of beds. To remedy this, we will remove the outliers according to the summary statistics in figure 1. 
+
+
+```{r, echo=F, width=50%,height=50%}
 features <- c("latitude", "longitude", "accommodates", "beds", "minimum_nights", "number_of_reviews", "review_scores_rating")
 
 
@@ -61,7 +70,8 @@ for (i in 1:ncol(numerical_features)) {
 
 ```
 
-From this initial data plotting, we realized that there data points that don't make sense. Some of the variables are poorly distributed For example the max price of 10000. In the next step, we will attempt to remove these outliers. Judging from IQR of each variables, we can see that majority of airbnbs in New York is below $500 and less than 30 nights. We will create a new dataframe from this. 
+
+We clean the data by using two filters. The first one is to only look at listing that is under 500 dollars. The second one is that we only look at listings that have a minimum nights of under 30. We choose these two because of the distribution plots. Most data clustered around price less than or equal to 500 and minimum nights less than or equal to 30. Looking at figure 2, which is the summary stat for the cleaned data, and the density plots for the cleaned data, the skewness problem seems to be alleviated.  
 
 ```{r, echo=F}
 
@@ -71,10 +81,14 @@ numerical_features_clean <- data_clean[3:9]
 categorical_features_clean <- data_clean[10:11]
 price_clean <- data_clean$price
 
-summary(price_clean)
-summary(numerical_features_clean)
+display <- data.frame(cbind(numerical_features_clean,price_clean))
+
+stargazer(display,type='latex', title = "Figure 2: Summary Stat for Cleaned Numerical Features")
+
 
 ```
+
+
 
 ```{r, echo=F}
 
@@ -92,24 +106,25 @@ for (i in 1:ncol(numerical_features_clean)) {
 plot(price_clean)
 ```
 
-For the features now, it seems a lot more realistic after we removed outliers.
+
+Next, we check for correlation between the predictors. Because predictors such as number of reviews on a host might be correlated with other predictors that can reflect quality of housing , i.e number of beds and amenities, we want to make sure that our predictors does not show strong correlation. If our predictors are correlated, it can affect our model fit. To check, we created a correlation heat map of predictors. From figure 3, we see light correlation between some of the predictors. However, since no two predictor exhibit strong correlation, which is good. We will fit our model and analyze the model to see if our model is  good fit. 
 
 ```{r, echo=F}
 pairs(numerical_features_clean)
 cor_matrix <- cor(numerical_features_clean)
-cor_matrix
-ggcorrplot(cor_matrix)
+ggcorrplot(cor_matrix) + ggtitle("Figure 3: Correlation Heat Map")
 
 ```
 
-we check for correlation between the variables. There seem to be relationship between number of reviews and minimum nights but because the correlation doesn't seem be a strong one.
+To conclude our exploratory data analysis, we plot the relationship between neighborhood and price. From figure 5, we break down the prices by the neighborhood. Note that the graph only shows 30 neighborhoods because there are around 200 total neighborhoods in New York. We will insert the total in the appendix.  
+
 
 ```{r, echo=F}
 #graphs with the categorical features 
 
 ggplot(categorical_features_clean, aes(x = categorical_features_clean$room_type)) +
   geom_bar(stat = "count", fill = "skyblue", color = "black") +
-  labs(title = "Count Plot", x = "Category", y = "Count") +
+  labs(title = "Figure 4: Type of Housing Count Plot", x = "Category", y = "Count") +
   theme_minimal()
 
 neighborhood_Price <- data_clean[11:12]
@@ -121,7 +136,10 @@ summary_price <- neighborhood_Price %>%
             max_price = max(price),
             total_listings = n())
 
-summary_price
+summary_price <- as.data.frame(summary_price[0:30,])
+
+stargazer(summary_price,type='latex', summary=F, title = "Figure 5: Summary Stat by Neighborhood")
+
 
 ```
 
