@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.2.9)  12 FEB 2024 21:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.2.9)  13 FEB 2024 16:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -351,6 +351,9 @@ LaTeX Warning: Label `' multiply defined.
 
 LaTeX Warning: Label `' multiply defined.
 
+
+LaTeX Warning: Label `' multiply defined.
+
 )
 \openout1 = `stat27410_Proposal.aux'.
 
@@ -447,209 +450,200 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 139.
 (/Users/weiweiweiwei/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 174.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 173.
 (/Users/weiweiweiwei/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 175.
-LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 175.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 174.
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 174.
 (/Users/weiweiweiwei/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 193.
+(Font)              <12> on input line 186.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 193.
+(Font)              <8> on input line 186.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 193.
+(Font)              <6> on input line 186.
 [1
 
 {/Users/weiweiweiwei/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-2-1.pdf, id=69, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-1.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-2-1.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-1.pdf  used on input line 218.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-3-1.pdf, id=69, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-3-1.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-1.pdf  used on input line 210.
 (pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-2-2.pdf, id=70, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-2.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-2-2.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-2.pdf  used on input line 219.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-3-2.pdf, id=70, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-2.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-3-2.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-2.pdf  used on input line 211.
 (pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-2-3.pdf, id=71, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-3.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-2-3.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-3.pdf  used on input line 220.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-3-3.pdf, id=71, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-3.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-3-3.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-3.pdf  used on input line 212.
 (pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-2-4.pdf, id=72, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-4.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-2-4.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-4.pdf  used on input line 221.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-3-4.pdf, id=72, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-4.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-3-4.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-4.pdf  used on input line 213.
 (pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-2-5.pdf, id=73, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-5.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-2-5.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-5.pdf  used on input line 222.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-3-5.pdf, id=73, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-5.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-3-5.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-5.pdf  used on input line 214.
 (pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-2-6.pdf, id=74, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-6.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-2-6.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-6.pdf  used on input line 223.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-3-6.pdf, id=74, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-6.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-3-6.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-6.pdf  used on input line 215.
 (pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-2-7.pdf, id=75, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-7.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-2-7.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-2-7.pdf  used on input line 224.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-3-7.pdf, id=75, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-7.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-3-7.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-3-7.pdf  used on input line 216.
 (pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
 
-Overfull \hbox (2.6099pt too wide) in paragraph at lines 218--225
+Overfull \hbox (2.6099pt too wide) in paragraph at lines 210--217
 [][] []
  []
 
 
-Overfull \hbox (2.6099pt too wide) in paragraph at lines 218--225
+Overfull \hbox (2.6099pt too wide) in paragraph at lines 210--217
 [] []
  []
 
 
-Overfull \hbox (2.6099pt too wide) in paragraph at lines 218--225
+Overfull \hbox (2.6099pt too wide) in paragraph at lines 210--217
 [] []
  []
 
-[2{/Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc} <./stat27410_Proposal_files/figure-latex/unnamed-chunk-2-1.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-2-2.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-2-3.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-2-4.pdf>]
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-4-1.pdf, id=102, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-4-1.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-1.pdf  used on input line 259.
-(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-4-2.pdf, id=103, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-2.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-4-2.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-2.pdf  used on input line 260.
-(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-4-3.pdf, id=104, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-3.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-4-3.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-3.pdf  used on input line 261.
-(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-4-4.pdf, id=105, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-4.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-4-4.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-4.pdf  used on input line 262.
-(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-4-5.pdf, id=106, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-5.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-4-5.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-5.pdf  used on input line 263.
-(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-4-6.pdf, id=107, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-6.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-4-6.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-6.pdf  used on input line 264.
-(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-4-7.pdf, id=108, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-7.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-4-7.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-7.pdf  used on input line 265.
-(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-4-8.pdf, id=109, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-8.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-4-8.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-4-8.pdf  used on input line 266.
-(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
-
-Overfull \hbox (2.6099pt too wide) in paragraph at lines 259--267
-[][] []
- []
-
-
-Overfull \hbox (2.6099pt too wide) in paragraph at lines 259--267
-[] []
- []
-
-
-Overfull \hbox (2.6099pt too wide) in paragraph at lines 259--267
-[] []
- []
-
-
-Overfull \hbox (2.6099pt too wide) in paragraph at lines 259--267
-[] [] 
- []
-
-[3 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-2-5.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-2-6.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-2-7.pdf>] [4 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-4-1.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-4-2.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-4-3.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-4-4.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-4-5.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-4-6.pdf>]
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-5-1.pdf, id=164, 469.755pt x 325.215pt>
+[2{/Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc} <./stat27410_Proposal_files/figure-latex/unnamed-chunk-3-1.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-3-2.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-3-3.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-3-4.pdf>]
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-5-1.pdf, id=102, 469.755pt x 325.215pt>
 File: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
 <use stat27410_Proposal_files/figure-latex/unnamed-chunk-5-1.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-1.pdf  used on input line 279.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-5-2.pdf, id=165, 469.755pt x 325.215pt>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-1.pdf  used on input line 246.
+(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-5-2.pdf, id=103, 469.755pt x 325.215pt>
 File: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-2.pdf Graphic file (type pdf)
 <use stat27410_Proposal_files/figure-latex/unnamed-chunk-5-2.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-2.pdf  used on input line 280.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-2.pdf  used on input line 247.
+(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-5-3.pdf, id=104, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-3.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-5-3.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-3.pdf  used on input line 248.
+(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-5-4.pdf, id=105, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-4.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-5-4.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-4.pdf  used on input line 249.
+(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-5-5.pdf, id=106, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-5.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-5-5.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-5.pdf  used on input line 250.
+(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-5-6.pdf, id=107, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-6.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-5-6.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-6.pdf  used on input line 251.
+(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-5-7.pdf, id=108, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-7.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-5-7.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-5-7.pdf  used on input line 252.
+(pdftex.def)             Requested size: 234.87692pt x 162.6071pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 279--281
-[][]
+Overfull \hbox (2.6099pt too wide) in paragraph at lines 246--253
+[][] []
  []
 
-[5 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-4-7.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-4-8.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-5-1.pdf>]
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-6-1.pdf, id=186, 469.755pt x 325.215pt>
+
+Overfull \hbox (2.6099pt too wide) in paragraph at lines 246--253
+[] []
+ []
+
+
+Overfull \hbox (2.6099pt too wide) in paragraph at lines 246--253
+[] []
+ []
+
+[3{/Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc} <./stat27410_Proposal_files/figure-latex/unnamed-chunk-3-5.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-3-6.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-3-7.pdf>] [4 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-5-1.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-5-2.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-5-3.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-5-4.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-5-5.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-5-6.pdf>]
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-6-1.pdf, id=165, 469.755pt x 325.215pt>
 File: stat27410_Proposal_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (type pdf)
 <use stat27410_Proposal_files/figure-latex/unnamed-chunk-6-1.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-6-1.pdf  used on input line 288.
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-6-1.pdf  used on input line 265.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-6-2.pdf, id=166, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-6-2.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-6-2.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-6-2.pdf  used on input line 266.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 288--292
+Underfull \hbox (badness 10000) in paragraph at lines 265--267
 [][]
  []
 
-[6 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-5-2.pdf>]
-Overfull \hbox (97.15239pt too wide) in paragraph at lines 296--333
+[5 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-5-7.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-6-1.pdf>]
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-7-1.pdf, id=183, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-7-1.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-7-1.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-7-1.pdf  used on input line 274.
+(pdftex.def)             Requested size: 328.82626pt x 227.64894pt.
+
+Overfull \hbox (97.15239pt too wide) in paragraph at lines 279--316
  [][] 
  []
 
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 347.
+[6 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-6-2.pdf> <./stat27410_Proposal_files/figure-latex/unnamed-chunk-7-1.pdf>] [7]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 330.
 (/Users/weiweiweiwei/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [7{/Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc} <./stat27410_Proposal_files/figure-latex/unnamed-chunk-6-1.pdf>] [8]
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-7-1.pdf, id=219, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-7-1.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-7-1.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-7-1.pdf  used on input line 387.
+) [8]
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-10-1.pdf, id=215, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-10-1.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-10-1.pdf  used on input line 382.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-7-2.pdf, id=220, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-7-2.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-7-2.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-7-2.pdf  used on input line 388.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-10-2.pdf, id=216, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-10-2.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-10-2.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-10-2.pdf  used on input line 383.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 387--389
+Underfull \hbox (badness 10000) in paragraph at lines 382--384
 [][]
  []
 
-[9] [10 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-7-1.pdf>]
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-8-1.pdf, id=235, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-8-1.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-8-1.pdf  used on input line 397.
+[9 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-10-1.pdf>]
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-11-1.pdf, id=226, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-11-1.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 385.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<stat27410_Proposal_files/figure-latex/unnamed-chunk-8-2.pdf, id=236, 469.755pt x 325.215pt>
-File: stat27410_Proposal_files/figure-latex/unnamed-chunk-8-2.pdf Graphic file (type pdf)
-<use stat27410_Proposal_files/figure-latex/unnamed-chunk-8-2.pdf>
-Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-8-2.pdf  used on input line 398.
+<stat27410_Proposal_files/figure-latex/unnamed-chunk-11-2.pdf, id=227, 469.755pt x 325.215pt>
+File: stat27410_Proposal_files/figure-latex/unnamed-chunk-11-2.pdf Graphic file (type pdf)
+<use stat27410_Proposal_files/figure-latex/unnamed-chunk-11-2.pdf>
+Package pdftex.def Info: stat27410_Proposal_files/figure-latex/unnamed-chunk-11-2.pdf  used on input line 386.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 397--399
+Underfull \hbox (badness 10000) in paragraph at lines 385--387
 [][]
  []
 
-[11 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-7-2.pdf>] [12 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-8-1.pdf>] [13 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-8-2.pdf>] [14] [15] [16] [17] [18]
+[10 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-10-2.pdf>] [11 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-11-1.pdf>]
+Overfull \hbox (481.75171pt too wide) detected at line 399
+\OML/lmm/m/it/12 log\OT1/lmr/m/n/12 (\OML/lmm/m/it/12 Price\OT1/lmr/m/n/12 ) = \OML/lmm/m/it/12 ^^L[] \OT1/lmr/m/n/12 + \OML/lmm/m/it/12 ^^L[] \OMS/lmsy/m/n/12 ^^B \OML/lmm/m/it/12 accommodates \OT1/lmr/m/n/12 + \OML/lmm/m/it/12 ^^L[] \OMS/lmsy/m/n/12 ^^B \OML/lmm/m/it/12 bathrooms \OT1/lmr/m/n/12 + \OML/lmm/m/it/12 ^^L[] \OMS/lmsy/m/n/12 ^^B \OML/lmm/m/it/12 min nights \OT1/lmr/m/n/12 + \OML/lmm/m/it/12 ^^L[] \OMS/lmsy/m/n/12 ^^B \OML/lmm/m/it/12 as:room type[] ^^L[] \OMS/lmsy/m/n/12 ^^B \OML/lmm/m/it/12 rating \OT1/lmr/m/n/12 + \OML/lmm/m/it/12 ^^L[] \OMS/lmsy/m/n/12 ^^B \OML/lmm/m/it/12 area[]bathrooms \OT1/lmr/m/n/12 + \OML/lmm/m/it/12 ^^L[] \OMS/lmsy/m/n/12 ^^B \OML/lmm/m/it/12 room type \OMS/lmsy/m/n/12 ^^B \OML/lmm/m/it/12 accommodates \OT1/lmr/m/n/12 + \OML/lmm/m/it/12 ^^L[] \OMS/lmsy/m/n/12 ^^B \OML/lmm/m/it/12 rating \OT1/lmr/m/n/12 + \OML/lmm/m/it/12 ^^L[] \OMS/lmsy/m/n/12 ^^B \OML/lmm/m/it/12 area \OMS/lmsy/m/n/12 ^^B \OML/lmm/m/it/12 rating
+ []
+
+[12 <./stat27410_Proposal_files/figure-latex/unnamed-chunk-11-2.pdf>] [13] [14] [15] [16] [17] [18]
 
 LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <12> not available
-(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 750.
+(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 773.
 
-[19] [20] (./stat27410_Proposal.aux)
+[19] (./stat27410_Proposal.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -661,18 +655,18 @@ Package rerunfilecheck Info: File `stat27410_Proposal.out' has not changed.
 (rerunfilecheck)             Checksum: FF66AF99335BB8EDBE9148E11C84DDEF;2223.
  ) 
 Here is how much of TeX's memory you used:
- 11607 strings out of 476182
- 189016 string characters out of 5794096
+ 11598 strings out of 476182
+ 188536 string characters out of 5794096
  1947975 words of memory out of 5000000
- 33372 multiletter control sequences out of 15000+600000
- 616660 words of font info for 85 fonts, out of 8000000 for 9000
+ 33364 multiletter control sequences out of 15000+600000
+ 612398 words of font info for 84 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 75i,9n,79p,588b,514s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtko10.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on stat27410_Proposal.pdf (20 pages, 34116357 bytes).
+ 75i,9n,79p,588b,460s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtko10.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb></Users/weiweiweiwei/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
+Output written on stat27410_Proposal.pdf (19 pages, 33146574 bytes).
 PDF statistics:
- 391 PDF objects out of 1000 (max. 8388607)
- 292 compressed objects within 3 object streams
+ 378 PDF objects out of 1000 (max. 8388607)
+ 284 compressed objects within 3 object streams
  54 named destinations out of 1000 (max. 500000)
- 215 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 210 words of extra memory for PDF output out of 10000 (max. 10000000)
 
