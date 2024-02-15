@@ -1,0 +1,533 @@
+---
+title: "STAT 27410 Final Project Proposal"
+author: "Brigette Kon and Jake Wei"
+fontsize: 12pt
+bibliography: references.bib
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+  geometry: margin=0.75in
+fig_crop: no
+---
+
+```{r setup, echo=FALSE, message=FALSE}
+library(knitr)
+knitr::opts_chunk$set(message=F, warning=F)
+options(scipen=6, digits=6)
+library(tidyverse)
+library(ggplot2)
+library(ggcorrplot)
+library(mosaic)
+library(car)
+library(MASS)
+library(broom)
+library(xtable)
+library(stargazer)
+```
+
+# 1. Introduction
+
+Airbnb has become one of the most popular choices for people traveling and seeking housing. However, one problem exists. It is difficult for owners to come up with prices given the location and amenities. It is also hard to predict prices given seasons. Different features such as host ratings, season, location, and number of bedrooms make these two questions immensely complex. In this project, we try to provide insight into predicting prices given different neighborhoods in New York in the month of December. The data set we picked comes from Inside Airbnb, which is an organization that periodically scrapes data from Airbnb listings. There are 12 columns in the data set: 2 columns are descriptions of the host, and 10 columns serve as explanatory variables. The explanatory variables are area, room type, accommodates, bed, price, minimum nights, and aggregate rating of the Airbnb listing. The response variable is the rent price of the Airbnb. Firstly, we will perform exploratory analysis and data cleaning. Secondly, we will use the frequentist approach to fit the data and analyze the best-fitted regression model. Lastly, we will describe how we are going to fit the model with respect to a Bayesian approach.
+
+We used R-Markdown to prepare this document. 
+
+# 2. Exploratory Data Cleaning and Data Analysis
+
+To start, we load our New York data from Inside Airbnb and obtain the summary statistics on the numerical features. From \textsc{Table 1}, there are signs of outliers, which we will do further analysis to confirm. The two most notable outliers are a listing with 42 beds and another listing with 1250 minimum number of nights.
+
+```{r ,1, results='asis', echo=FALSE}
+data <- read.csv('nydata.csv')
+
+numerical_features <- data[3:9]
+categorical_features <- data[10:11]
+price = summary(as.data.frame(data$price))
+num_and_price <- data[c(3:9, 12)]
+```
+
+```{r, echo=FALSE, results='asis'}
+stargazer(num_and_price, type='latex', title = "Summary Statistics for Numerical Features", header = FALSE)
+```
+
+Next, we plot the density for each of the predictors to get a sense of the shape. Note that we choose to use \texttt{longitude} and \texttt{latitude} instead of \texttt{area} as explanatory variables because they are easier to visualize. From the plots shown below, there are signs of skewness from each of the predictors. The predictors are also poorly distributed. This confirms our claim that there are outliers. The main outliers result from \texttt{minimum nights}, \texttt{price}, and \texttt{beds}. To remedy this, we will remove the outliers according to the summary statistics that can be seen in \textsc{Table 1}. 
+
+```{r, echo = FALSE, out.width = "50%", out.height = "50%"}
+features <- c("latitude", "longitude", "accommodates", "beds", "minimum_nights", "number_of_reviews", "review_scores_rating")
+for (i in 1:ncol(numerical_features)) {
+  p <- ggplot(numerical_features, aes(x = numerical_features[[i]])) +
+    geom_density(fill = "skyblue", color = "black") +
+    labs(title = paste("Density Plot of Feature", features[i]), x = features[i], y = "Density") +
+    theme_minimal()
+  
+  plot(p)  # Print each plot
+}
+```
+
+
+We can see from the density plots that most data are clustered around \texttt{price} $\leq 500$ and \texttt{minimum nights} $\leq 30$. Thus, we will clean the data by using two conditions to filter out outliers. The first condition is to only include listings with a rent price less than \$500. The second one is to only include listings that have a minimum number of nights that is less than 30 nights. We can see from \textsc{Table 2} below, which displays summary statistics for the cleaned data and the density plots for the cleaned data, that the skewness problem seems to be alleviated. 
+
+```{r, echo=F,results='asis'}
+#clean data
+data_clean = subset(data,price <= 500 & minimum_nights <= 30)
+numerical_features_clean <- data_clean[3:9]
+categorical_features_clean <- data_clean[10:11]
+price_clean <- data_clean$price
+
+display <- data.frame(cbind(numerical_features_clean, price_clean))
+
+stargazer(display,type='latex', title = "Summary Statistics for Cleaned Numerical Features",header = FALSE)
+```
+
+
+
+```{r, echo = FALSE, out.width = "50%", out.height = "50%"}
+# graph cleaned predictors
+for (i in 1:ncol(numerical_features_clean)) {
+  p <- ggplot(numerical_features_clean, aes(x = numerical_features_clean[[i]])) +
+    geom_density(fill = "skyblue", color = "black") +
+    labs(title = paste("Density Plot of Feature", features[i]), x = features[i], y = "Density") +
+    theme_minimal()
+  print(p)  # Print each plot
+}
+```
+
+Next, we check for correlation between the predictors. We want to ensure that the predictors do not show strong correlation with each other because predictors, such as number of reviews on a host, might be correlated with other predictors that can reflect the quality of housing, and correlation between predictors can affect our model fit. To check, we created a correlation heat map of predictors. From \textsc{Figure 1} and \textsc{Figure 2} below, we can see a little bit of correlation between some of the predictors. However, since no two predictors show strong correlation, we can assume that none of our predictors are correlated.
+
+```{r, echo=F}
+pairs(numerical_features_clean, main = "Figure 1: Pairs Plot")
+```
+
+```{r, echo=F}
+cor_matrix <- cor(numerical_features_clean)
+ggcorrplot(cor_matrix) + ggtitle("Figure 2: Correlation Heat Map")
+```
+
+To conclude our exploratory data analysis, we plot the type of housing in \textsc{Figure 3} and the relationship between \texttt{area} and \texttt{price} in \textsc{Table 3}. From \textsc{Table 3}, we break down the rent prices by the neighborhood. Note that the graph displays only 30 neighborhoods for visualization purposes, given that there are approximately 200 total neighborhoods in New York City.
+
+```{r, echo=F, results='asis',out.width="50%", out.height="70%"}
+#graphs with the categorical features 
+ggplot(categorical_features_clean, aes(x = categorical_features_clean$room_type)) +
+  geom_bar(stat = "count", fill = "skyblue", color = "black") +
+  labs(title = "Figure 3: Type of Housing Count Plot", x = "Category", y = "Count") +
+  theme_minimal()
+
+neighborhood_Price <- data_clean[11:12]
+summary_price <- neighborhood_Price %>%
+  group_by(neighbourhood_cleansed) %>%
+  summarise(mean_price = mean(price),
+            median_price = median(price),
+            min_price = min(price),
+            max_price = max(price),
+            total_listings = n())
+
+summary_price <- as.data.frame(summary_price[0:30,])
+```
+
+```{r, echo=FALSE,results='asis', out.width="70%", out.height="70%"}
+colnames(summary_price) <- c("Neighborhood", "mean(price)", "median(price)","min(price)", "max(price)","count")
+stargazer(summary_price,type='latex', summary=F, title = "Summary Statistics by Neighborhood", header = FALSE)
+```
+
+# 3. Frequentist Analysis
+
+## 3.1 Proposed Frequentist Model(s)
+
+We will be using Multiple Linear Regression to analyze our dataset. 
+
+$$ Y_i = \beta_0 + \beta_1 X_{i1} + \dots + \beta_p X_{ip} + \epsilon_i$$
+
+Where,
+
+\vspace{-0.4cm}
+
+\begin{itemize}
+  \item $Y_i$ is the predicted rent price for the $i^{th}$ Airbnb
+  \item $\beta_0$ is the intercept
+  \item $\beta_1, \dots, \beta_p$ are the coefficients for the respective $X_{ij}$ independent variables
+  \item $\epsilon_i$ is the error term
+\end{itemize}
+
+The variables that we included in our model are:
+
+\vspace{-0.4cm}
+
+\begin{itemize}
+  \item $\texttt{area}$, the New York, NY neighborhood of the Airbnb listing
+  \item $\texttt{accommodates}$, the number of individuals the Airbnb can accommodate
+  \item $\texttt{bathrooms}$, the number of bathrooms in the Airbnb
+  \item $\texttt{minimum nights}$, the minimum number of nights required to book the Airbnb
+  \item $\texttt{room type}$, whether the Airbnb listing is a private room, shared room, hotel room, or the entire home/apartment
+  \item $\texttt{rating}$, the aggregate rating score of the Airbnb from 0 to 5
+\end{itemize}
+
+From this point on, we will use the categorical predictor, \texttt{area}, instead of \texttt{longitude} and \texttt{latitude} because it better provides information regarding location. Additionally, we will focus on neighborhoods in New York, NY (a.k.a. Manhattan), as the sample size for neighborhoods outside of the Manhattan borough are too small for us to be confident that our data is unbiased.
+
+## 3.2 Fitting the Frequentist Model(s)
+
+We first want to determine if the model is better fitted with a log transformation, so we fit the following two models without any interaction terms.
+
+\begin{itemize}
+  \item \textbf{Linear Model}\\
+        $\text{Price} = \beta_0 + \beta_1 \times\text{area} + \beta_2 \times\text{accommodates} + \beta_3 \times\text{bathrooms} + \beta_4 \times\text{min nights} + \beta_5 \times \text{room type} + \beta_6 \times \text{rating}$
+  \item \textbf{Log Linear Model}\\
+        $\text{log(Price)} = \beta_0 + \beta_1 \times\text{area} + \beta_2 \times\text{accommodates} + \beta_3 \times\text{bathrooms} + \beta_4 \times\text{min nights} + \beta_5 \times \text{room type} + \beta_6 \times \text{rating}$
+\end{itemize}
+
+```{r data, echo=F}
+airbnb24 <- read.csv('ny_ny.24.csv')
+airbnb24$rating[is.na(airbnb24$rating)] <- mean(airbnb24$rating, na.rm = TRUE)
+```
+
+Let us graph fitted values against the residuals for \texttt{Price} and \texttt{log(Price)}. We can see from \textsc{Figure 4} and \textsc{Figure 5} below that the data becomes more linear and variance becomes more constant when we perform a log transformation on \texttt{Price}. Thus, we will choose to use \texttt{log(Price)} to fit our final model.
+
+```{r, echo=F, out.width = "50%", out.height = "50%"}
+## fitted models
+lm24 = lm(price ~ as.factor(area) + accommodates + bathrooms + min_nights + 
+            as.factor(room_type) + rating, data=airbnb24)
+log24 = lm(log(price) ~ as.factor(area) + accommodates + bathrooms + min_nights + 
+             as.factor(room_type), data=airbnb24)
+
+## Residuals vs. fitted values
+ggplot(airbnb24, aes(x=lm24$fit, y=lm24$res)) + geom_point() +
+  xlab("Fitted Values") + ylab("Residuals") + labs(title = "Figure 4: Without Log Transformation of Price") +
+  geom_hline(yintercept = 0, col=2)
+ggplot(airbnb24, aes(x=log24$fit, y=log24$res)) + geom_point() +
+  xlab("Log Fitted Values") + ylab("Residuals") + labs(title = "Figure 5: With Log Transformation of Price") +
+  geom_hline(yintercept = 0, col=2)
+```
+
+Next, given that there are two categorical variables in our dataset, we want to control for the interaction terms. To determine the best model, we manually used greedy backwards algorithm to find the most significant predictors between all order-2 interaction terms. The final fitted model with most significant predictors and interactions is as follows: 
+
+$\textbf{Log Interaction Model}$
+
+\vspace{-0.5cm}
+
+$$\begin{aligned}
+\text{log(Price)} = &\,\beta_0 + \beta_1\times\text{accommodates} + \beta_2 \times\text{bathrooms} + \beta_3 \times\text{min nights}\\ 
+&+ \beta_4 \times \text{room type} + \beta_5 \times\text{rating} + \beta_6 \times\text{area}\ast\text{bathrooms}\\
+&+ \beta_7 \times\text{room type} \ast \text{accommodates} + \beta_8\times\text{area}\ast\text{rating}
+\end{aligned}$$
+
+We will now use AIC and BIC values to compare the three different models we have discussed thus far, with the Log Interaction Model being our final fitted model. As shown below in \textsc{Table 4}, we can see that the Log Interaction Model has the lowest AIC and BIC compared to the Log Linear Model and Linear Model, which allows us to conclude that our chosen final model is the best-fitted model. 
+
+```{r AIC BIC, echo=F, results='asis'}
+lm1 = lm(log(price) ~ accommodates + min_nights  + rating + bathrooms + as.factor(room_type) + as.factor(area)*(bathrooms) + as.factor(room_type)*(accommodates), data=airbnb24)
+## AIC / BIC
+aic_bic_df <- data.frame(
+  Name = c("Log Interaction Model", "Log Linear Model","Linear Model"),
+  AIC = c(AIC(lm1), AIC(log24), AIC(lm24)), 
+  BIC = c(BIC(lm1), BIC(log24), BIC(lm24))  
+)
+stargazer(aic_bic_df,summary = FALSE, type = "latex",title = "AIC/BIC for the 3 Models",header = FALSE)
+```
+
+```{r, echo=FALSE}
+predicted_values <- predict(lm1)
+# Mean of predicted values
+mean_predicted <- mean(predicted_values)
+sd_predicted <- sd(predicted_values)
+
+airbnb24$predicted <- predicted_values
+
+means_by_area <- aggregate(predicted ~ area, data = airbnb24, FUN = mean)
+sds_by_area <- aggregate(predicted ~ area, data = airbnb24, FUN = sd)
+
+means_sds_by_area <- merge(means_by_area, sds_by_area, by = "area")
+colnames(means_sds_by_area) <- c("area", "Log predicted_mean", "Log predicted_sd")
+```
+
+Given that there are 32 neighborhoods in our sample, we will not display the final equation of the fitted model as there are 288 total coefficients, so we will briefly summarize our results below.
+
+In our final fitted model, the intercept $\beta_0 = 3.8574$, which means if the Airbnb accommodated 0 people, had 0 bathrooms, required 0 minimum nights to book, was the entire home or apartment, and was located in Battery Park, the estimated average rent price of the Airbnb is $47.35. Additionally, we found that the rent price of the Airbnb increases when it can accommodate more people, has more bathrooms, or is a hotel room vs. an entire apartment/home and the rent price decreases when more minimum nights are required to book or the Airbnb is a private room or shared room vs. an entire apartment/home. 
+
+As for the neighborhoods, we found that, compared to Battery Park, the neighborhoods that increased the rent price of an Airbnb the most were Tribeca, Roosevelt Island, Theater District, and Midtown, and the neighborhoods that decreased the rent price the most in comparison to Battery Park were Marble Hill, Civic Center, and Washington Heights. 
+
+```{r, echo=F, results='hide'}
+summary(lm1)
+```
+
+The mean predicated log of rent price is approximately 5.2 with a standard deviation of 0.539. In \textsc{Table 5}, we plot the mean and standard deviation of the first 10 neighborhoods to get a general idea of how spread out the rent price is.
+
+```{r echo=FALSE, results='asis', header=FALSE}
+stargazer(means_sds_by_area[1:10,],summary = FALSE, type = "latex", title = "Mean and SD by neighborhoods", header = FALSE) 
+```
+
+# 4. Bayesian Analysis
+
+## 4.1 Proposed Bayesian Model(s)
+
+In the Bayesian context, we can use our Airbnb data in two ways. We can use a non-informative prior such as $1/\sigma^2$ that follows $\text{IG}(0,0)$. Alternatively, we can use this dataset to inform our prior and use the most recent 2024 dataset released in February as our data. For this proposal, we will use the reference prior, $1/\sigma^2$, because the new data have not been published as of the writing of this proposal 
+
+We now formally define the notion for this section: 
+
+$$Y_{n{\times}1} = X_{n{\times}p}\,\beta_{p{\times}1} + \epsilon_{n{\times}1}$$
+
+Where, 
+
+\vspace{-0.4cm}
+
+\begin{itemize}
+  \item $X_{n \times p}$ = data matrix 
+  \item $Y_{n{\times}1}$ = price response vector
+  \item $\beta_{p{\times}1}$ = predictor vector
+  \item $\epsilon_{n{\times}1} \sim \text{N}(0,\sigma^2I_{p{\times}p})$ = noise vector 
+\end{itemize}
+
+## 4.2 Fitting the Bayesian model(s)
+
+Following the correlation heat map from exploratory data analysis, we see that some predictors are correlated. However, since the correlations are less than 0.5, we can assume that they are not significant and each predictor is independent.
+
+To begin the Bayesian regression analysis, we will center data first by subtracting the mean from each column, which can be seen in \textsc{Table 6}. 
+
+```{r, echo=F, results='asis'}
+means = colMeans(numerical_features_clean, na.rm = TRUE) 
+numerical_features_clean_substracted <- numerical_features_clean
+for (i in seq_along(df)) {
+  numerical_features_clean_substracted[, i] <- ifelse(is.na(numerical_features_clean[, i]), NA, numerical_features_clean[, i] - means[i])
+}
+
+stargazer(numerical_features_clean_substracted,type = "latex",title = "Summary of Centered Data", header=F)
+```
+
+Since this a multiple linear regression, we can define the distribution as the following: 
+
+\vspace{-0.4cm}
+
+\begin{itemize}
+  \item $\pi\left(\beta \mid \sigma^2, X,Y\right) \sim \text{N} \left(\hat{\beta}, \sigma^2(X^{\prime} X)^{-1}\right)$, where $\hat{\beta} = (X^{\prime} X)^{-1}X^{\prime} Y$
+  \item $\pi\left(\sigma^2\mid X,Y\right) \sim \text{IG}\left(\frac{n-p}{2}, \frac{SSE}2 \right)$, where $SSE = (Y-X\hat{\beta})^{\prime}(Y-X\hat{\beta})$
+\end{itemize}
+
+Alternatively, we can fit a linear hierarchical model to better compensate for the neighborhood data. To do this, we would use the brms library to do the following. 
+
+\textsl{Stage 2}
+
+\vspace{-0.3cm}
+
+\begin{itemize}
+  \item $\alpha \mid \beta, \sum\limits_{\alpha} \sim \text{MVN}_2 (\beta, \sum\limits_{\alpha})$
+\end{itemize}
+
+\textsl{Stage 3}
+
+\vspace{-0.3cm}
+
+\begin{itemize}
+  \item $\beta \mid \mu, \sum\limits_{0} \sim \text{MVN}_2 (\mu, \sum\limits_{0})$
+  \item $\sum\limits_{\alpha} \sim \text{Inv-Wishart}(R, \rho)$
+  \item $\sigma_e^2 \sim \text{IG}(a_e, b_e)$
+\end{itemize}
+
+We will be able to get a better understanding of how to do this after 2/14/24 lectures and learning how to use the brms library after the lab06. 
+
+To perform the sensitivity test, we will make sure that the following conditions are satisfied. 
+
+\vspace{-0.4cm}
+
+\begin{itemize}
+  \item $n > p$ 
+  \item Predictors are independent
+  \item $X'X$ is convertible.
+  \item No collinearity
+  \item $SSE > 0$
+\end{itemize}
+
+Another way that we can check for sensitivity is by using data from prior years to perform cross validation to ensure our model is correct.
+
+For ensuring MCMC convergence, we will plot and monitor the following signs of convergence:
+
+\vspace{-0.4cm}
+
+\begin{itemize}
+  \item Trace plots
+  \item Histograms 
+  \item Gelman-Rubin convergence diagnosis
+  \item Effective sample size
+\end{itemize}
+
+## 4.3 Prediction
+
+After generating the posterior distribution, we can generate the predictive posterior distribution and compute the predictive mean and credible intervals.
+
+# 5. Discussion
+
+<!-- In this section, discuss how you can improve your model. -->
+
+We can improve our model by narrowing down the neighborhoods where we do not have enough information in order to make reliable predictions and remove it from our model. While this means that we will have to exclude predictions for that area, that could potentially help in obtaining a better fitted model. 
+
+# 6. Contributions
+
+<!-- In this section, discuss the percentage of your contributions to the development final project proposal. Report the number of hours you have worked on the proposal, and the sections you are involved. -->
+
+<!-- Please also discuss briefly the contributions of your teammate(s), as well as the help and support you got from your teammates(s). -->
+
+Brigette and Jake contributed to the first draft of the proposal equally, with Jake doing sections 1 and 2, and Brigette doing sections 3, 4, and 5. For the revised proposal, Jake did majority of the revisions, and Brigette formalized language and formatting. We have spent 15+ hours working on the proposal.
+
+# References
+
+<div id="refs"></div>
+
+# Appendix
+
+**Set up**
+```{r, message=FALSE}
+library(knitr)
+knitr::opts_chunk$set(message=F, warning=F)
+options(scipen=6, digits=6)
+library(tidyverse)
+library(ggplot2)
+library(ggcorrplot)
+library(mosaic)
+library(car)
+library(MASS)
+library(broom)
+library(xtable)
+library(stargazer)
+```
+
+**From Section 2:**
+
+```{r, results='hide', fig.show='hide'}
+data <- read.csv('nydata.csv')
+
+numerical_features <- data[3:9]
+categorical_features <- data[10:11]
+price = summary(as.data.frame(data$price))
+num_and_price <- data[c(3:9, 12)]
+
+stargazer(num_and_price,type='latex', title = "Summary for Numerical Features", 
+          header = FALSE)
+
+features <- c("latitude", "longitude", "accommodates", "beds", "minimum_nights", 
+              "number_of_reviews", "review_scores_rating")
+for (i in 1:ncol(numerical_features)) {
+  p <- ggplot(numerical_features, aes(x = numerical_features[[i]])) +
+    geom_density(fill = "skyblue", color = "black") +
+    labs(title = paste("Density Plot of Feature", features[i]), x = features[i], 
+         y = "Density") +
+    theme_minimal()
+  plot(p)  # Print each plot
+}
+
+#clean data
+data_clean = subset(data,price <= 500 & minimum_nights <= 30)
+numerical_features_clean <- data_clean[3:9]
+categorical_features_clean <- data_clean[10:11]
+price_clean <- data_clean$price
+
+display <- data.frame(cbind(numerical_features_clean, price_clean))
+
+stargazer(display,type='latex', 
+          title = "Summary Statistics for Cleaned Numerical Features", 
+          header = FALSE)
+
+# graph again
+for (i in 1:ncol(numerical_features_clean)) {
+  p <- ggplot(numerical_features_clean, aes(x = numerical_features_clean[[i]])) +
+    geom_density(fill = "skyblue", color = "black") +
+    labs(title = paste("Density Plot of Feature", features[i]), 
+         x = features[i], 
+         y = "Density") +
+    theme_minimal()
+  print(p)  # Print each plot
+}
+
+pairs(numerical_features_clean, main = "Figure 1: Pairs Plot")
+cor_matrix <- cor(numerical_features_clean)
+ggcorrplot(cor_matrix) + ggtitle("Figure 2: Correlation Heat Map")
+
+#graphs with the categorical features 
+ggplot(categorical_features_clean,aes(x=categorical_features_clean$room_type)) +
+  geom_bar(stat = "count", fill = "skyblue", color = "black") +
+  labs(title = "Figure 3: Type of Housing Count Plot", 
+       x = "Category", 
+       y = "Count") +
+  theme_minimal()
+
+neighborhood_Price <- data_clean[11:12]
+summary_price <- neighborhood_Price %>%
+  group_by(neighbourhood_cleansed) %>%
+  summarise(mean_price = mean(price),
+            median_price = median(price),
+            min_price = min(price),
+            max_price = max(price),
+            total_listings = n())
+
+summary_price <- as.data.frame(summary_price[0:30,])
+colnames(summary_price) <- c("Neighborhood", "mean(price)", "median(price)",
+                             "min(price)", "max(price)","count")
+stargazer(summary_price,type='latex', summary=F, 
+          title = "Summary Statistics by Neighborhood", header = FALSE)
+```
+
+**From Section 3.2**
+
+```{r, results='hide', fig.show='hide'}
+airbnb24 <- read.csv('ny_ny.24.csv')
+airbnb24$rating[is.na(airbnb24$rating)] <- mean(airbnb24$rating, na.rm = TRUE)
+
+## fitted models
+lm24 = lm(price ~ as.factor(area) + accommodates + bathrooms + min_nights + 
+            as.factor(room_type) + rating, data=airbnb24)
+log24 = lm(log(price) ~ as.factor(area) + accommodates + bathrooms + 
+             min_nights + as.factor(room_type), data=airbnb24)
+
+## Residuals vs. fitted values
+ggplot(airbnb24, aes(x=lm24$fit, y=lm24$res)) + geom_point() +
+  xlab("Fitted Values") + ylab("Residuals") + 
+  labs(title = "Figure 4: Without Log Transformation of Price") +
+  geom_hline(yintercept = 0, col=2)
+ggplot(airbnb24, aes(x=log24$fit, y=log24$res)) + geom_point() +
+  xlab("Log Fitted Values") + ylab("Residuals") + 
+  labs(title = "Figure 5: With Log Transformation of Price") +
+  geom_hline(yintercept = 0, col=2)
+
+## Final Model
+lm1 = lm(log(price) ~ accommodates + min_nights  + rating + bathrooms + 
+           as.factor(room_type) + as.factor(area)*(bathrooms) + 
+           as.factor(room_type)*(accommodates), data=airbnb24)
+
+## AIC / BIC
+aic_bic_df <- data.frame(
+  Name = c("Log Interaction Model", "Log Linear Model","Linear Model"),
+  AIC = c(AIC(lm1), AIC(log24), AIC(lm24)), 
+  BIC = c(BIC(lm1), BIC(log24), BIC(lm24))  
+)
+stargazer(aic_bic_df,summary = FALSE, type = "latex",
+          title = "AIC/BIC for the 3 Models", header = FALSE)
+
+predicted_values <- predict(lm1)
+# Mean of predicted values
+mean_predicted <- mean(predicted_values)
+sd_predicted <- sd(predicted_values)
+
+airbnb24$predicted <- predicted_values
+
+means_by_area <- aggregate(predicted ~ area, data = airbnb24, FUN = mean)
+sds_by_area <- aggregate(predicted ~ area, data = airbnb24, FUN = sd)
+
+means_sds_by_area <- merge(means_by_area, sds_by_area, by = "area")
+colnames(means_sds_by_area) <- c("area", 
+                                 "Log predicted_mean", 
+                                 "Log predicted_sd")
+summary(lm1)
+
+stargazer(means_sds_by_area[1:10,],summary = FALSE, type = "latex", 
+          title = "Mean and SD by neighborhoods", header = FALSE) 
+```
+
+**From Section 4.2**
+
+```{r, results='hide', fig.show='hide'}
+means = colMeans(numerical_features_clean, na.rm = TRUE) 
+numerical_features_clean_substracted <- numerical_features_clean
+for (i in seq_along(df)) {
+  numerical_features_clean_substracted[, i] <- 
+    ifelse(is.na(numerical_features_clean[, i]), 
+           NA, 
+           numerical_features_clean[, i] - means[i])
+}
+stargazer(numerical_features_clean_substracted,type = "latex",
+          title = "Summary of Centered Data", header=F)
+```
